@@ -7,12 +7,10 @@ A [StartOS](https://start9.com) package for [Joplin Server](https://github.com/l
 Joplin Server is **not** open source. It is distributed under the proprietary [**Joplin Server Personal Use License**](https://github.com/laurent22/joplin/blob/dev/packages/server/LICENSE.md), which permits **personal, non-commercial use only** and restricts redistribution and derivative works.
 
 Because of that:
-
 - **This repository contains only the StartOS packaging code** (MIT licensed — see [LICENSE](./LICENSE)). It includes **no Joplin source code** and ships **no prebuilt binaries**.
 - **No `.s9pk` is distributed here.** Building an `.s9pk` bundles the Joplin Server image, which would be redistribution. Build it yourself, for your own personal use (see below).
 - The Joplin name and logo are trademarks of Joplin SAS and are **not** used here; this package ships a neutral icon.
 
-This is not legal advice. You are responsible for complying with Joplin Server's license.
 
 ## Build it yourself
 
