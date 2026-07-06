@@ -40,7 +40,9 @@ export const showCredentials = sdk.Action.withoutInput(
           },
           {
             type: 'single',
-            name: isDefault ? 'Password (default — change immediately)' : 'Password',
+            name: isDefault
+              ? 'Password (default — change immediately)'
+              : 'Password',
             description: null,
             value: password,
             masked: !isDefault,

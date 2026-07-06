@@ -40,3 +40,43 @@ export function getJoplinSub(effects: T.Effects) {
     'joplin-sub',
   )
 }
+
+export type PrimaryAddress = 'auto' | 'domain' | 'local'
+
+// Joplin validates every request's origin host against APP_BASE_URL, so it must
+// be a real StartOS interface URL. StartOS may expose several addresses (a LAN
+// .local hostname, a clearnet domain, Tor), but Joplin accepts only one — so we
+// pick according to the user's preference (default: prefer a clearnet domain,
+// else the LAN .local address). Using .const() re-runs main (restarting the
+// daemon) if the chosen URL changes.
+export async function getAppBaseUrl(
+  effects: T.Effects,
+  preference: PrimaryAddress = 'auto',
+): Promise<string> {
+  const chosen = await sdk.serviceInterface
+    .getOwn(effects, 'ui', (i) => {
+      const urls = i?.addressInfo?.nonLocal.format('urlstring') ?? []
+      const hostOf = (u: string) => {
+        try {
+          return new URL(u).hostname
+        } catch {
+          return ''
+        }
+      }
+      const domain = urls.find((u) => {
+        const h = hostOf(u)
+        return (
+          !!h &&
+          !h.endsWith('.local') &&
+          !h.endsWith('.onion') &&
+          /\.[a-z]{2,}$/i.test(h)
+        )
+      })
+      const local = urls.find((u) => hostOf(u).endsWith('.local'))
+      if (preference === 'local') return local ?? domain ?? urls[0] ?? null
+      // 'auto' and 'domain' both prefer a clearnet domain when one exists.
+      return domain ?? local ?? urls[0] ?? null
+    })
+    .const()
+  return chosen ?? `http://localhost:${uiPort}`
+}

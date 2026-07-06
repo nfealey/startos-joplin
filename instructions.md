@@ -43,7 +43,10 @@ So this package uses **one** address at a time:
   `.local` everywhere (clients need "Ignore TLS certificate errors" — see
   below). The service stays on your local network.
 
-You cannot use the `.local` address and a domain at the same time.
+You cannot use the `.local` address and a domain at the same time. By default
+the package prefers a domain when one is mapped, otherwise the LAN address. Use
+the **Set Primary Address** action to override this (for example, to keep using
+the LAN address even after mapping a domain).
 
 ### TLS certificate
 
@@ -61,6 +64,14 @@ in your **browser** (so the web UI loads cleanly), but Joplin's sync engine
 validates TLS with Node's own certificate store rather than the OS trust store,
 so the desktop/mobile sync client still needs "Ignore TLS certificate errors"
 (or the Tor address) even with the CA installed.
+
+## Actions
+
+- **Show Admin Login** — view your admin email and (generated) password.
+- **Set Primary Address** — choose whether Joplin's canonical URL is a mapped
+  clearnet domain or the LAN `.local` address.
+- **Reset Admin Password** — generate and apply a new admin password (stop the
+  service first).
 
 ## Notes
 
